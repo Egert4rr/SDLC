@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="quiz"></div>
+    <button id="submit">Submit Quiz</button>
+    <div id="results"></div>
+
+<script>
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+
+function buildQuiz(){}
+
+function showResults(){}
+
+
+
+// on submit, show results
+submitButton.addEventListener('click', showResults);
+
+const myQuestions = [
+  {
+    question: "Waterfall model is a?",
+    answers: {
+      a: "Model that allows the accessing of earlier phases,",
+      b: "SDLC methodology that follows logical progression of linear and sequential phases within the project lifecycle process.",
+      c: "a cascade of water falling from a height, formed when a river or stream flows over a precipice or steep incline."
+    },
+    correctAnswer: "b"
+  },
+  {
+    question: "The iterative model is a?",
+    answers: {
+      a: "stable and not frequently changed application",
+      b: "Quickly released version of the first product.",
+      c: "(SDLC) that focuses on an initial, simplified implementation, which then progressively gains more complexity and a broader feature set until the final system is complete."
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "Prototyping Model is?",
+    answers: {
+      a: "a method used for risk management that combines the iterative development process model with elements of the Waterfall model.",
+      b: "a particular implementation of a software development life cycle that focuses on an initial, simplified implementation",
+      c: "used when the customers do not know the exact project requirements beforehand."
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "How many methodologies are there?",
+    answers: {
+      a: "2",
+      b: "4",
+      c: "6"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "Which model should be used when the requirements of the product are not clearly understood or are unstable?",
+    answers: {
+      a: "Prototyping model",
+      b: "Spiral model",
+      c: "V-shaped"
+    },
+    correctAnswer: "a"
+  },
+  {
+    question: "is a systems development lifecycle method used for risk management that combines the iterative development process model with elements of the Waterfall model.",
+    answers: {
+      a: "V-Shaped",
+      b: "Spiral",
+      c: "Waterfall"
+    },
+    correctAnswer: "b"
+  },
+  {
+    question: "based on collaborative decision making between requirements and solutions teams, and a cyclical, iterative progression of producing working software.",
+    answers: {
+      a: "iterative",
+      b: "Agile",
+      c: "Prototyping"
+    },
+    correctAnswer: "b"
+  },
+  {
+    question: "Why use the prototyping model",
+    answers: {
+      a: "should be used when the requirements of the product are not clearly understood or are unstable.",
+      b: "when requirements are stable and not changed frequently. An application is small."
+    },
+    correctAnswer: "a"
+  },
+  {
+    question: "Why use the Agile model?",
+    answers: {
+      a: "It is should be used to produce rigorous development lifecycle models and project management models.",
+      b: "It minimizes the risk of software development."
+    },
+    correctAnswer: "b"
+  },
+  {
+    question: "Why use the Agile model?",
+    answers: {
+      a: "It is should be used to produce rigorous development lifecycle models and project management models.",
+      b: "It minimizes the risk of software development."
+    },
+    correctAnswer: "b"
+  },
+  
+];
+
+// display quiz right away
+buildQuiz();
+function buildQuiz(){
+  // variable to store the HTML output
+  const output = [];
+
+  // for each question...
+  myQuestions.forEach(
+    (currentQuestion, questionNumber) => {
+
+      // variable to store the list of possible answers
+      const answers = [];
+
+      // and for each available answer...
+      for(letter in currentQuestion.answers){
+
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+            <input type="radio" name="question${questionNumber}" value="${letter}">
+            ${letter} :
+            ${currentQuestion.answers[letter]}
+          </label>
+          <br>`
+        );
+      }
+
+      // add this question and its answers to the output
+      output.push(
+        `<div class="question"> ${currentQuestion.question} </div>
+        <div class="answers"> ${answers.join('')} </div>`
+      );
+    }
+  );
+
+  // finally combine our output list into one string of HTML and put it on the page
+  quizContainer.innerHTML = output.join('');
+}
+
+myQuestions.forEach( (currentQuestion, questionNumber) => {
+  // the code we want to run for each question goes here
+});
+
+// we'll want to store the list of answer choices
+const answers = [];
+
+// and for each available answer...
+for(letter in currentQuestion.answers){
+
+  // ...add an html radio button
+  answers.push(
+    `<label>
+      <input type="radio" name="question${questionNumber}" value="${letter}">
+      ${letter} :
+      ${currentQuestion.answers[letter]}
+    </label>`
+  );
+}
+
+// add this question and its answers to the output
+output.push(
+  `<div class="question"> ${currentQuestion.question} </div>
+  <div class="answers"> ${answers.join('')} </div>`
+);
+
+quizContainer.innerHTML = output.join('');
+
+// Kick things off
+buildQuiz();
+
+// Event listeners
+submitButton.addEventListener('click', showResults);
+
+function showResults(){
+
+// gather answer containers from our quiz
+const answerContainers = quizContainer.querySelectorAll('.answers');
+
+// keep track of user's answers
+let numCorrect = 0;
+
+// for each question...
+myQuestions.forEach( (currentQuestion, questionNumber) => {
+
+  // find selected answer
+  const answerContainer = answerContainers[questionNumber];
+  const selector = `input[name=question${questionNumber}]:checked`;
+  const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+  // if answer is correct
+  if(userAnswer === currentQuestion.correctAnswer){
+    // add to the number of correct answers
+    numCorrect++;
+
+    // color the answers green
+    answerContainers[questionNumber].style.color = 'lightgreen';
+  }
+  // if answer is wrong or blank
+  else{
+    // color the answers red
+    answerContainers[questionNumber].style.color = 'red';
+  }
+});
+
+// show number of correct answers out of total
+resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+}
+
+// gather answer containers from our quiz
+const answerContainers = quizContainer.querySelectorAll('.answers');
+
+// keep track of user's answers
+let numCorrect = 0;
+
+// for each question...
+myQuestions.forEach( (currentQuestion, questionNumber) => {
+
+// find selected answer
+const answerContainer = answerContainers[questionNumber];
+const selector = `input[name=question${questionNumber}]:checked`;
+const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+// if answer is correct
+if(userAnswer === currentQuestion.correctAnswer){
+  // add to the number of correct answers
+  numCorrect++;
+
+  // color the answers green
+  answerContainers[questionNumber].style.color = 'lightgreen';
+}
+// if answer is wrong or blank
+else{
+  // color the answers red
+  answerContainers[questionNumber].style.color = 'red';
+}
+});
+
+// find selected answer
+const answerContainer = answerContainers[questionNumber];
+const selector = `input[name=question${questionNumber}]:checked`;
+const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+// if answer is correct
+if(userAnswer === currentQuestion.correctAnswer){
+  // add to the number of correct answers
+  numCorrect++;
+
+  // color the answers green
+  answerContainers[questionNumber].style.color = 'lightgreen';
+}
+// if answer is wrong or blank
+else{
+  // color the answers red
+  answerContainers[questionNumber].style.color = 'red';
+}
+
+// show number of correct answers out of total
+resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+
+
+</script>
+</body>
+</html>
